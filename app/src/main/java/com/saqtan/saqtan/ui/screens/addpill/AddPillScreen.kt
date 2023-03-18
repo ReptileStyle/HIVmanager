@@ -181,7 +181,7 @@ private fun AddPillScreenUi(
                 value = pillDuration,
                 onValueChange = {if(it.length <= 3)
                     onPillDurationChange(it)},
-                label = {Text(text = "Қабылдау күндер саны")}
+                label = {Text(text = "Қабылдауды бастау күні")}
             )
         }
     }

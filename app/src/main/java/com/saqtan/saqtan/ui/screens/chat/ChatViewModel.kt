@@ -142,7 +142,7 @@ class ChatViewModel  @Inject constructor(
      * */
     suspend fun downloadImage(imagePath:String):ImageBitmap?{
         try {
-            val imageBytes = FirebaseStorage.getInstance().getReference(imagePath).getBytes(ONE_MEGABYTE).await()
+            val imageBytes = FirebaseStorage.getInstance().getReference(imagePath).getBytes(ONE_MEGABYTE*10).await()
             try {
                 Log.d("ChatViewModel","try block")
                 return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size).asImageBitmap()

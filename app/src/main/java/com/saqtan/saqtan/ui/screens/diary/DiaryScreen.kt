@@ -312,7 +312,7 @@ private fun DiaryHeader() {
             Text(text = "Темп", color = MaterialTheme.colors.primary, fontSize = 20.sp)
         }
         Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Вес", color = MaterialTheme.colors.primary, fontSize = 20.sp)
+            Text(text = "Салмақ", color = MaterialTheme.colors.primary, fontSize = 20.sp)
         }
     }
 }
@@ -460,11 +460,11 @@ fun DeleteEntryDialog(
         ),
         buttons = {
             positiveButton(text = "ОК", onClick = onConfirmClick)
-            negativeButton(text = "Отмена")
+            negativeButton(text = "Болдырмау")
         }
     ) {
         Text(
-            text= "Вы уверены, что хотите удалить запись?",
+            text= "Жазбаны жойғыңыз келетініне сенімдісіз бе ?",
             modifier = Modifier.padding(16.dp),
             textAlign = TextAlign.Center
         )

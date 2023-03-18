@@ -65,10 +65,10 @@ private fun InfoScreenUi(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth()
-                    .height(300.dp),
-                painter = painterResource(id = R.drawable.article_logo),
+                    .wrapContentHeight(),
+                painter = painterResource(id = R.drawable.article_logo_2),
                 contentDescription = "Big logo",
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.FillWidth
             )
             articles.forEach { article ->
                 var isExpanded by remember{ mutableStateOf(false)}
@@ -109,10 +109,13 @@ private fun InfoScreenUi(
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "Тікелей жедел желі : +7(7212)441550",modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp))
+            Text(text = "Қабылдау бөлімі: +7(7212)441580",modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp))
+            Text(text = "Алдын алу бөлімі: +7(7212)441615",modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp))
+            Text(text = "Процедура бөлімі: +7(7212)442134",modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp))
             Spacer(modifier = Modifier.height(8.dp))
         }
-
-
     }
 }
 

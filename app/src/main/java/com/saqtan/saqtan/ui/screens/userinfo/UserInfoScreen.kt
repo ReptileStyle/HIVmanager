@@ -109,7 +109,7 @@ private fun DiaryHeader() {
             Text(text = "Темп", color = MaterialTheme.colors.primary, fontSize = 20.sp)
         }
         Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Вес", color = MaterialTheme.colors.primary, fontSize = 20.sp)
+            Text(text = "Салмақ", color = MaterialTheme.colors.primary, fontSize = 20.sp)
         }
     }
 }
