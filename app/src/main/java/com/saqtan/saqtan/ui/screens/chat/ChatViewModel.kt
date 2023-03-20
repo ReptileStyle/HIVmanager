@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.saqtan.saqtan.R
+import com.saqtan.saqtan.data.model.Response
 import com.saqtan.saqtan.data.repository.UserRepository
 import com.saqtan.saqtan.navigation.NavigationEvent
 import com.saqtan.saqtan.navigation.Route
@@ -142,7 +143,7 @@ class ChatViewModel  @Inject constructor(
      * */
     suspend fun downloadImage(imagePath:String):ImageBitmap?{
         try {
-            val imageBytes = FirebaseStorage.getInstance().getReference(imagePath).getBytes(ONE_MEGABYTE*10).await()
+            val imageBytes = FirebaseStorage.getInstance().getReference(imagePath).getBytes(ONE_MEGABYTE).await()
             try {
                 Log.d("ChatViewModel","try block")
                 return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size).asImageBitmap()
@@ -159,8 +160,23 @@ class ChatViewModel  @Inject constructor(
      * */
     private fun onSendMessageButtonClick(){
         if(state.message.isNotEmpty()||state.imageUri!=null) {
-            userRepository.sendMessage(chatID, state.message, state.imageUri)
-            state = state.copy(message = "", imageBitmap = null, imageUri = null)
+            viewModelScope.launch {
+                userRepository.sendMessage(chatID, state.message, state.imageUri).collect{
+                    when(it){
+                        is Response.Loading ->{
+                            state = state.copy(isMessageLoading = true)
+                        }
+                        is Response.Success ->{
+                            state = state.copy(message = "", imageBitmap = null, imageUri = null, isMessageLoading = false)
+                        }
+                        is Response.Failure ->{
+                            state = state.copy(isMessageLoading = false)
+                            Toast.makeText(context,it.e.message,Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+            }
         }
     }
     /** обработка изменения вводимого сообщения
@@ -179,48 +195,7 @@ class ChatViewModel  @Inject constructor(
     /** функция сохранения изображения из чата в галерею
      * */
     fun saveMediaToStorage(bitmap: Bitmap,imageName:String) {
-        Log.d("ChatViewModel","")
-        //Generating a file name
-        val filename = "$imageName.png"
-
-        //Output stream
-        var fos: OutputStream? = null
-
-        //For devices running android >= Q
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            //getting the contentResolver
-            context?.contentResolver?.also { resolver ->
-
-                //Content resolver will process the contentvalues
-                val contentValues = ContentValues().apply {
-
-                    //putting file information in content values
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-                }
-
-                //Inserting the contentValues to contentResolver and getting the Uri
-                val imageUri: Uri? =
-                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-                //Opening an outputstream with the Uri that we got
-                fos = imageUri?.let { resolver.openOutputStream(it) }
-            }
-        } else {
-            //These for devices running on android < Q
-            //So I don't think an explanation is needed here
-            val imagesDir =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val image = File(imagesDir, filename)
-            fos = FileOutputStream(image)
-        }
-
-        fos?.use {
-            //Finally writing the bitmap to the output stream that we opened
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
-            Toast.makeText(context,"Изображение сохранено",Toast.LENGTH_SHORT).show()
-        }
+        userRepository.saveMediaToStorage(bitmap,imageName)
     }
 
 

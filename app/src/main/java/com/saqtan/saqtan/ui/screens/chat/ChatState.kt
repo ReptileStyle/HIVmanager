@@ -11,7 +11,8 @@ data class ChatState(
     val isLoading:Boolean = true,
     val imageUri:Uri? = null,
     val imageBitmap: ImageBitmap? = null,
-    val images: Map<String,ImageBitmap?> = mapOf()
+    val images: Map<String,ImageBitmap?> = mapOf(),
+    val isMessageLoading:Boolean = false
 )
 
 /** структура сообщения в чате

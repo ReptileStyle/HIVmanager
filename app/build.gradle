@@ -107,4 +107,7 @@ dependencies {
 
     //for notifications
     implementation("androidx.work:work-runtime-ktx:2.8.0")
+
+    //compressor
+    implementation 'id.zelory:compressor:3.0.1'
 }
