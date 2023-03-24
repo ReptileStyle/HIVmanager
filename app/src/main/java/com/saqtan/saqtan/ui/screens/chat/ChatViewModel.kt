@@ -94,24 +94,6 @@ class ChatViewModel  @Inject constructor(
             onChildAddedListener = {getNewMessages(it)},
             onLoaded = {}
         )
-        viewModelScope.launch {
-            startDownLoadingImages()
-        }
-    }
-    /** загрузка изображений с конца сообщений
-     * */
-    suspend fun startDownLoadingImages(){
-        Log.d("ChatViewModel","start downloading images")
-        for(i in state.allMessages.size-1 downTo 0) {
-            val message = state.allMessages[i]
-            Log.d("ChatViewModel","${message.imageBitmap}")
-            if(message.imageBitmap.isNotEmpty()){
-                state = state.copy(
-                    images = state.images.plus(message.imageBitmap to downloadImage(message.imageBitmap))
-                )
-                Log.d("ChatViewModel","downloaded image")
-            }
-        }
     }
     /** обработка обновления чата, если в базе был установлен врач для текущего пользователя,
      * то откроется чат с ним

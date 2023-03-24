@@ -125,7 +125,6 @@ fun ChatScreen(
                 viewModel.setImageBitmap(null)
                 viewModel.setImageUri(null)
             },
-            images = viewModel.state.images,
             isMessageLoading = viewModel.state.isMessageLoading,
             onSaveImageClick = { image, name -> viewModel.saveMediaToStorage(image, name) }
         )
@@ -156,7 +155,7 @@ private fun ChatNowAvailableUi(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "Біз әлі сізді дәрігерге тіркемедік, \"aibataginbaev@gmail.com\" бойынша хабарласыңыз",
+                    text = "Біз әлі сізді дәрігерге тіркемедік, \"sadairu11@gmail.com\" бойынша хабарласыңыз",
                     modifier = Modifier.width(200.dp),
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp
@@ -188,7 +187,6 @@ private fun ChatScreenUi(
     onAddImageClick: () -> Unit = {},
     onDeleteImageClick: () -> Unit = {},
     imageBitmap: ImageBitmap? = null,
-    images: Map<String, ImageBitmap?> = mapOf(),
     isMessageLoading: Boolean = false,
     onSaveImageClick: (Bitmap, String) -> Unit = { _, _ -> }
 ) {

@@ -405,7 +405,7 @@ class UserRepository @Inject constructor(
     private suspend fun uploadImage(uri: Uri?, chatID: String, messageID: String): Uri? {
         val imageRef = FirebaseStorage.getInstance().getReference("images/${chatID}/${messageID}")
         if (uri != null)
-            imageRef.putFile(File(context.cacheDir, "images/temp.jpeg").toUri()).await()
+            imageRef.putFile(uri).await()
         return FirebaseStorage.getInstance()
             .getReference("images/${chatID}/${messageID}").downloadUrl.await()
     }

@@ -138,7 +138,7 @@ private fun AddPillScreenUi(
             AddPillTextField(
                 value = pillStart,
                 onValueChange = {},
-                label = {Text(text = "Қабылдау күндер саны")},
+                label = {Text(text = "Қабылдауды бастау күні")},
                 onClick = {
                     Log.d("AddPillScreen","entered onClick")
                     dateDialogState.show()
@@ -181,7 +181,7 @@ private fun AddPillScreenUi(
                 value = pillDuration,
                 onValueChange = {if(it.length <= 3)
                     onPillDurationChange(it)},
-                label = {Text(text = "Қабылдауды бастау күні")}
+                label = {Text(text = "Қабылдау күндер саны")}
             )
         }
     }
